@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ethio Elect</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ===========================
+       GLOBAL STYLES
+       All CSS is inline in this single file.
+       =========================== */
+    :root{
+      --bg1: linear-gradient(135deg,#0f172a 0%, #0b3d91 55%, #1e90ff 100%);
+      --card:#ffffff;
+      --muted:#9aa4b2;
+      --accent:#ffdd57;
+      --glass: rgba(255,255,255,0.06);
+      --maxw:1200px;
+    }
+    *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,"Helvetica Neue",Arial;}
+    html,body{height:100%;margin:0;background:var(--bg1);color:#fff;-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:var(--maxw);margin:0 auto;padding:22px}
+    header{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    /* Logo */
+    .logo{
+      display:flex;align-items:center;gap:12px;
+    }
+    .logo-crest{
+      width:56px;height:56px;border-radius:12px;
+      background:linear-gradient(135deg,#fff 0,#ffdd57 60%);
+      display:flex;align-items:center;justify-content:center;color:#0b2a66;font-weight:800;font-size:20px;
+      box-shadow:0 6px 18px rgba(0,0,0,0.25);
+      transform:rotate(-6deg);
+      transition:transform .35s ease;
+    }
+    .logo-crest:hover{transform:rotate(0deg) scale(1.03)}
+    .brand{line-height:1}
+    .brand h1{margin:0;font-size:18px;color:#fff;letter-spacing:0.2px}
+    .brand p{margin:0;font-size:12px;color:var(--muted)}
+    /* Nav */
+    .nav{display:flex;align-items:center;gap:10px}
+    .lang-picker button{background:transparent;border:1px solid rgba(255,255,255,0.12);color:#fff;padding:6px 10px;border-radius:8px;cursor:pointer}
+    .cta{background:#fff;color:#0b2a66;padding:8px 12px;border-radius:10px;font-weight:700;border:0;cursor:pointer}
+    /* hero */
+    .hero{
+      margin-top:18px;
+      display:grid;grid-template-columns:1fr 420px;gap:24px;align-items:center;
+    }
+    .hero-card{background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));padding:28px;border-radius:16px;backdrop-filter: blur(6px);}
+    .hero h2{margin:0;font-size:28px}
+    .search{margin-top:14px;display:flex;gap:8px}
+    .search input{flex:1;padding:10px;border-radius:10px;border:0;background:rgba(255,255,255,0.06);color:#fff}
+    .search button{padding:10px 12px;border-radius:10px;border:0;background:var(--accent);cursor:pointer;font-weight:700}
+    /* products grid */
+    .products{margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+    .card{background:#fff;color:#0b2a66;border-radius:12px;padding:12px;box-shadow:0 6px 18px rgba(4,9,35,0.35);overflow:hidden}
+    .card img{width:100%;height:160px;object-fit:cover;border-radius:8px}
+    .card h3{margin:8px 0 4px;font-size:16px}
+    .card p{margin:0;color:#4b5563;font-size:14px}
+    .price{font-weight:800;margin-top:8px;color:#0b2a66}
+    .buy{margin-top:10px;padding:8px;border-radius:8px;border:0;cursor:pointer;background:linear-gradient(90deg,#1e90ff,#0066cc);color:#fff;width:100%}
+    /* gallery */
+    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-top:24px}
+    .gallery img{width:100%;height:100px;object-fit:cover;border-radius:8px;cursor:pointer}
+    /* forms */
+    .form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+    input[type="text"],input[type="email"],input[type="password"],textarea{
+      padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);width:100%;font-size:14px
+    }
+    textarea{min-height:100px;resize:vertical}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    /* pages layout */
+    .pages{margin-top:18px;background:transparent}
+    .page{display:none}
+    .page.active{display:block}
+    /* footer */
+    footer{margin-top:28px;padding:18px 0;color:var(--muted);border-top:1px dashed rgba(255,255,255,0.04)}
+    /* small */
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr; }
+      .logo-crest{width:46px;height:46px}
+    }
+    /* small visual touches */
+    .tag{display:inline-block;background:rgba(11,42,102,0.06);padding:6px 8px;border-radius:999px;font-weight:700;color:#fff;font-size:12px}
+    .logo-crest span{font-style:italic}
+    .success{padding:10px;background:rgba(16,185,129,0.12);color:#bbf7d0;border-radius:8px}
+    .error{padding:10px;background:rgba(239,68,68,0.12);color:#fecaca;border-radius:8px}
+    .mini-muted{font-size:12px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo" onclick="navigateTo('home')">
+        <div class="logo-crest" aria-hidden="true"><span>EE</span></div>
+        <div class="brand">
+          <h1 id="brand-title">Ethio Elect</h1>
+          <p id="brand-sub">Electronics • Sales • Support</p>
+        </div>
+      </div>
+
+      <div class="nav">
+        <div class="lang-picker" role="tablist" aria-label="Language selector">
+          <button onclick="setLang('en')">EN</button>
+          <button onclick="setLang('om')">ORO</button>
+          <button onclick="setLang('am')">AM</button>
+        </div>
+        <div style="width:10px"></div>
+        <button class="cta" onclick="navigateTo('products')" id="cta-shop">Shop</button>
+      </div>
+    </header>
+
+    <!-- HERO + SEARCH -->
+    <section class="hero">
+      <div class="hero-card">
+        <h2 id="hero-title">Your trusted electronics marketplace</h2>
+        <p id="hero-sub">Find quality devices and accessories with fast shipping and friendly support.</p>
+
+        <div class="search" role="search">
+          <input id="search-input" placeholder="Search products..." oninput="filterProducts()" />
+          <button onclick="filterProducts()"><span id="btn-search">Search</span></button>
+        </div>
+
+        <div style="margin-top:12px">
+          <button onclick="navigateTo('products')" class="tag" id="hero-tag">Shop Now</button>
+          <span style="margin-left:10px" class="mini-muted" id="hero-info">Free shipping in select areas.</span>
+        </div>
+
+        <div style="margin-top:18px" id="featured-area">
+          <h4 id="feat-title">Featured</h4>
+          <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+            <div style="min-width:140px;background:rgba(255,255,255,0.04);padding:10px;border-radius:10px">
+              <strong id="feat1">Smartphone X</strong>
+              <div class="mini-muted" id="feat1-price">$299</div>
+            </div>
+            <div style="min-width:140px;background:rgba(255,255,255,0.04);padding:10px;border-radius:10px">
+              <strong id="feat2">4K TV</strong>
+              <div class="mini-muted" id="feat2-price">$549</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside>
+        <div class="hero-card" style="text-align:center">
+          <h3 id="aside-title">Sign in to get deals</h3>
+          <p class="mini-muted" id="aside-sub">Access orders, wishlist and fast checkout.</p>
+          <div style="margin-top:12px">
+            <button class="cta" onclick="navigateTo('signin')" id="aside-cta">Sign In</button>
+          </div>
+          <div style="margin-top:14px" class="mini-muted" id="aside-tip">New? Create an account.</div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- PAGES -->
+    <nav style="margin-top:18px;display:flex;gap:8px;flex-wrap:wrap">
+      <button onclick="navigateTo('home')" id="nav-home">Home</button>
+      <button onclick="navigateTo('about')" id="nav-about">About</button>
+      <button onclick="navigateTo('products')" id="nav-products">Products</button>
+      <button onclick="navigateTo('gallery')" id="nav-gallery">Gallery</button>
+      <button onclick="navigateTo('contact')" id="nav-contact">Contact</button>
+      <button onclick="navigateTo('signin')" id="nav-signin">Sign In</button>
+      <button onclick="navigateTo('signup')" id="nav-signup">Sign Up</button>
+    </nav>
+
+    <main class="pages">
+      <!-- HOME PAGE -->
+      <section id="page-home" class="page active">
+        <div style="margin-top:16px" class="hero-card">
+          <h3 id="home-welcome">Welcome to Ethio Elect</h3>
+          <p id="home-desc">Top electronics from trusted brands. Browse, order, and enjoy secure checkout.</p>
+
+          <div class="products" id="product-grid" aria-live="polite">
+            <!-- Product cards will be injected by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="page-about" class="page">
+        <div class="hero-card">
+          <h3 id="about-title">About Ethio Elect</h3>
+          <p id="about-desc">Ethio Elect is your local marketplace for quality electronics. We provide reliable service and fast delivery.</p>
+          <ul id="about-list">
+            <li id="about-1">Quality products</li>
+            <li id="about-2">Support & warranty</li>
+            <li id="about-3">Secure payments</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- PRODUCTS -->
+      <section id="page-products" class="page">
+        <div class="hero-card">
+          <h3 id="prod-title">Products</h3>
+          <p id="prod-desc">Click any product to view details.</p>
+
+          <div class="products" id="products-list"></div>
+        </div>
+      </section>
+
+      <!-- GALLERY -->
+      <section id="page-gallery" class="page">
+        <div class="hero-card">
+          <h3 id="gallery-title">Gallery</h3>
+          <div class="gallery" id="gallery-grid"></div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="page-contact" class="page">
+        <div class="hero-card">
+          <h3 id="contact-title">Contact Us</h3>
+          <p id="contact-sub">Send us a message — we reply fast.</p>
+
+          <div id="contact-msg"></div>
+
+          <form id="contact-form">
+            <div class="form-group">
+              <label id="label-name">Name</label>
+              <input type="text" name="name" id="contact-name" required />
+            </div>
+            <div class="form-group grid-2">
+              <div>
+                <label id="label-email">Email</label>
+                <input type="email" name="_replyto" id="contact-email" required />
+              </div>
+              <div>
+                <label id="label-phone">Phone</label>
+                <input type="text" name="phone" id="contact-phone" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label id="label-message">Message</label>
+              <textarea name="message" id="contact-message" required></textarea>
+            </div>
+
+            <div style="display:flex;gap:8px;align-items:center">
+              <button type="submit" class="buy" id="contact-send">Send Message</button>
+              <div id="contact-status" class="mini-muted"></div>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- SIGN IN -->
+      <section id="page-signin" class="page">
+        <div class="hero-card" style="max-width:480px;margin:auto">
+          <h3 id="signin-title">Sign In</h3>
+          <div id="signin-msg"></div>
+          <form id="signin-form">
+            <div class="form-group">
+              <label id="signin-label-email">Email</label>
+              <input type="email" id="signin-email" required />
+            </div>
+            <div class="form-group">
+              <label id="signin-label-pass">Password</label>
+              <input type="password" id="signin-pass" required />
+            </div>
+            <button type="submit" class="buy" id="signin-btn">Sign In</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- SIGN UP -->
+      <section id="page-signup" class="page">
+        <div class="hero-card" style="max-width:520px;margin:auto">
+          <h3 id="signup-title">Create Account</h3>
+          <div id="signup-msg"></div>
+          <form id="signup-form">
+            <div class="form-group">
+              <label id="signup-label-name">Full name</label>
+              <input type="text" id="signup-name" required />
+            </div>
+            <div class="form-group">
+              <label id="signup-label-email">Email</label>
+              <input type="email" id="signup-email" required />
+            </div>
+            <div class="form-group">
+              <label id="signup-label-pass">Password</label>
+              <input type="password" id="signup-pass" required />
+            </div>
+            <button type="submit" class="buy" id="signup-btn">Sign Up</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div>
+          <strong>Ethio Elect</strong> — <span class="mini-muted" id="foot-desc">Best electronics store</span>
+        </div>
+        <div class="mini-muted">Contact: sadiksultan43@gmail.com</div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Modal for viewing product details / gallery (simple) -->
+  <div id="modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,0.7);align-items:center;justify-content:center;padding:18px;z-index:1200">
+    <div style="background:#fff;color:#0b2a66;border-radius:12px;max-width:900px;width:100%;overflow:hidden">
+      <div style="display:flex;gap:12px">
+        <img id="modal-img" src="" alt="" style="width:50%;height:350px;object-fit:cover"/>
+        <div style="padding:14px;flex:1">
+          <h3 id="modal-title"></h3>
+          <p id="modal-desc" style="color:#334155"></p>
+          <div style="font-weight:800;color:#0b2a66" id="modal-price"></div>
+          <div style="margin-top:12px"><button onclick="closeModal()" class="buy">Close</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /**********************************************
+     * Ethio Elect — Single-file site script
+     * - Multi-language (en / om / am)
+     * - Products injected
+     * - Contact posts via Formspree endpoint
+     * - SignUp/SignIn via localStorage (demo)
+     **********************************************/
+
+    // --------- CONFIG ----------
+    const FORMSPREE_ENDPOINT = "https://formspree.io/f/mpwoajzn";
+    // default language
+    let LANG = localStorage.getItem('ethio_lang') || 'en';
+
+    // translations
+    const TEXT = {
+      en: {
+        brandSub: "Electronics • Sales • Support",
+        heroTitle: "Your trusted electronics marketplace",
+        heroSub: "Find quality devices and accessories with fast service.",
+        heroTag: "Shop Now",
+        featTitle: "Featured",
+        homeWelcome: "Welcome to Ethio Elect",
+        homeDesc: "Top electronics from trusted brands. Browse, order, and enjoy secure checkout.",
+        aboutTitle: "About Ethio Elect",
+        aboutDesc: "Ethio Elect is your local marketplace for quality electronics.",
+        prodTitle: "Products",
+        prodDesc: "Click any product to view details.",
+        galleryTitle: "Gallery",
+        contactTitle: "Contact Us",
+        contactSub: "Send us a message — we reply fast.",
+        labelName: "Name",
+        labelEmail: "Email",
+        labelPhone: "Phone",
+        labelMessage: "Message",
+        contactSend: "Send Message",
+        signinTitle: "Sign In",
+        signupTitle: "Create Account",
+        navHome: "Home",
+        navAbout: "About",
+        navProducts: "Products",
+        navGallery: "Gallery",
+        navContact: "Contact",
+        navSignin: "Sign In",
+        navSignup: "Sign Up",
+        ctaShop: "Shop",
+        asideTitle: "Sign in to get deals",
+        asideSub: "Access orders, wishlist and fast checkout.",
+        asideCta: "Sign In",
+        footDesc: "Best electronics store"
+      },
+      om: {
+        brandSub: "Meeshaalee Elektroniks • Gurgurtaa • Deeggarsa",
+        heroTitle: "Suqii elektirooniksii amanamaa kee",
+        heroSub: "Meeshaalee qulqullina qabu argadhu fi tajaajila saffisaa fudhadhu.",
+        heroTag: "Amma bitadhu",
+        featTitle: "Kan filatame",
+        homeWelcome: "Baga nagaan dhuftan Ethio Elect",
+        homeDesc: "Meeshaalee elektirooniksii sadarkaa olaanaa irraa. Ilaali, ajajji, fi bittaa amansiisaa fayyadami.",
+        aboutTitle: "Waa'ee Ethio Elect",
+        aboutDesc: "Ethio Elect suuqii maxxanfamaa meeshaalee elektirooniksiiti.",
+        prodTitle: "Meeshaalee",
+        prodDesc: "Meeshaa tokko cuqaasi ibsa isaa argachuuf.",
+        galleryTitle: "Galerii",
+        contactTitle: "Nu qunnami",
+        contactSub: "Ergaa nuuf ergi — deebii saffisaa ni argatta.",
+        labelName: "Maqqaa",
+        labelEmail: "Imeel",
+        labelPhone: "Lakkoofsa",
+        labelMessage: "Ergaa",
+        contactSend: "Ergaa Ergi",
+        signinTitle: "Seeni",
+        signupTitle: "Herrega Uumi",
+        navHome: "Mana",
+        navAbout: "Waa'ee",
+        navProducts: "Meeshaalee",
+        navGallery: "Galerii",
+        navContact: "Nu qunnami",
+        navSignin: "Seeni",
+        navSignup: "Galmaa'i",
+        ctaShop: "Dukaana",
+        asideTitle: "Seeni carraa argachuuf",
+        asideSub: "Ajaja, wishlist fi checkout saffisaa argachuuf.",
+        asideCta: "Seeni",
+        footDesc: "Suqii meeshaalee elektirooniksiitiin gaarii"
+      },
+      am: {
+        brandSub: "ኤሌክትሮኒክስ • ሽያጭ • ድጋፍ",
+        heroTitle: "የእሱ እርግጠኛ ኤሌክትሮኒክስ ገበያ",
+        heroSub: "ጥሩ መሣሪያዎችን እና አክስሰሰሪዎችን ያገኙ።",
+        heroTag: "ወዲያውኑ ግዙ",
+        featTitle: "የተመረጠ",
+        homeWelcome: "እንኳን ወደ Ethio Elect በደህና መጡ",
+        homeDesc: "ከታዋቂ ባለሞያዎች የተለዩ የኤሌክትሮኒክስ መሣሪያዎች።",
+        aboutTitle: "ስለ Ethio Elect",
+        aboutDesc: "Ethio Elect በእርግጠኝነት የሚሸጥ የኤሌክትሮኒክስ ገበያ ነው።",
+        prodTitle: "ምርቶች",
+        prodDesc: "እያንዳንዱን ምርት ለመመልከት ጠቅ ያድርጉ።",
+        galleryTitle: "ጋለሪ",
+        contactTitle: "አግኙን",
+        contactSub: "ልክ መልዕክት ይላኩ — ፈጣን መልስ እናቀርባለን።",
+        labelName: "ስም",
+        labelEmail: "ኢሜይል",
+        labelPhone: "ስልክ",
+        labelMessage: "መልዕክት",
+        contactSend: "መልዕክት ይላኩ",
+        signinTitle: "ግባ",
+        signupTitle: "አካውንት ይፍጠሩ",
+        navHome: "መነሻ",
+        navAbout: "ስለ እኛ",
+        navProducts: "ምርቶች",
+        navGallery: "ጋለሪ",
+        navContact: "አግኙን",
+        navSignin: "ግባ",
+        navSignup: "ይመዝገቡ",
+        ctaShop: "ግዙ",
+        asideTitle: "ለእንደዚህ ያሉ ዕድሎች ግባ",
+        asideSub: "ትዕዛዞች, wishlist እና ፈጣን checkout ይደርሳሉ።",
+        asideCta: "ግባ",
+        footDesc: "በጥሩ ጥራት የታወቀ የኤሌክትሮኒክስ ሱቅ"
+      }
+    };
+
+    // sample products (10). Images should be placed in images/product1.jpg ... product10.jpg
+    const PRODUCTS = [
+      {id:1,name:{en:"Smartphone X",om:"Smartphone X",am:"Smartphone X"}, price:"$299", img:"images/product1.jpg", desc:{en:"Fast, sleek phone",om:"Bilbila saffisaa",am:"ማንኛውም ፈጣን ስልክ"}},
+      {id:2,name:{en:"4K LED TV",om:"TV 4K",am:"4K ቴቪ"}, price:"$549", img:"images/product2.jpg", desc:{en:"Stunning display",om:"Ijaarsaa bareedaa",am:"ድንቅ ማሳያ"}},
+      {id:3,name:{en:"Laptop Pro",om:"Laptop Pro",am:"Laptop Pro"}, price:"$899", img:"images/product3.jpg", desc:{en:"Powerful performance",om:"Dalagaa cimaa",am:"ኃይለኛ የሥራ ነጥብ"}},
+      {id:4,name:{en:"Bluetooth Speaker",om:"Speaker Bluetooth",am:"Bluetooth ተናጋሪ"}, price:"$79", img:"images/product4.jpg", desc:{en:"Clear sound",om:"Sagalee ifaa",am:"ግሩም ድምጽ"}},
+      {id:5,name:{en:"DSLR Camera",om:"Kamera DSLR",am:"DSLR ካሜራ"}, price:"$649", img:"images/product5.jpg", desc:{en:"Capture memories",om:"Yaadannoo galmeessi",am:"ማስታወሻዎችን ይይዙ"}},
+      {id:6,name:{en:"Smart Watch",om:"Sa'atii Smart",am:"Smart እንቁላል"}, price:"$199", img:"images/product6.jpg", desc:{en:"Health & notifications",om:"Fayyaa fi beeksisa",am:"ጤና እና ማስታወቂያዎች"}},
+      {id:7,name:{en:"Wireless Earbuds",om:"Earbuds Wireless",am:"Wireless Earbuds"}, price:"$49", img:"images/product7.jpg", desc:{en:"Comfort & bass",om:"Baasii fi rahat",am:"ማረፊያ እና ባስ"}},
+      {id:8,name:{en:"Portable Charger",om:"Charger Portable",am:"Portable ኣብርሃም"}, price:"$29", img:"images/product8.jpg", desc:{en:"Fast charging",om:"Saffisa ittiin guutu",am:"ፈጣን ማሞሌ"}},
+      {id:9,name:{en:"Home Fan",om:"Fan Mana",am:"የቤት ፈን"}, price:"$39", img:"images/product9.jpg", desc:{en:"Cool breeze",om:"Qilleensa qabbanaa'",am:"ማረከ ነፋስ"}},
+      {id:10,name:{en:"Router AX",om:"Router AX",am:"Router AX"}, price:"$129", img:"images/product10.jpg", desc:{en:"Strong wifi",om:"WiFi cimaa",am:"ጠንካራ WiFi"}}
+    ];
+
+    // gallery image placeholders - use images/gallery1.jpg ... etc or reuse product images
+    const GALLERY = [
+      "images/gallery1.jpg","images/gallery2.jpg","images/gallery3.jpg",
+      "images/gallery4.jpg","images/gallery5.jpg","images/gallery6.jpg"
+    ];
+
+    // ---------- utility ----------
+    function el(id){return document.getElementById(id)}
+    function setLang(lang){
+      LANG = lang;
+      localStorage.setItem('ethio_lang', lang);
+      applyLang();
+    }
+
+    function applyLang(){
+      const t = TEXT[LANG];
+      if(!t) return;
+      // update interface texts
+      el('brand-sub').textContent = t.brandSub;
+      el('hero-title').textContent = t.heroTitle;
+      el('hero-sub').textContent = t.heroSub;
+      el('hero-tag').textContent = t.heroTag;
+      el('feat-title').textContent = t.featTitle;
+      el('home-welcome').textContent = t.homeWelcome;
+      el('home-desc').textContent = t.homeDesc;
+      el('about-title').textContent = t.aboutTitle;
+      el('about-desc').textContent = t.aboutDesc;
+      el('prod-title').textContent = t.prodTitle;
+      el('prod-desc').textContent = t.prodDesc;
+      el('gallery-title').textContent = t.galleryTitle;
+      el('contact-title').textContent = t.contactTitle;
+      el('contact-sub').textContent = t.contactSub;
+      el('label-name').textContent = t.labelName;
+      el('label-email').textContent = t.labelEmail;
+      el('label-phone').textContent = t.labelPhone;
+      el('label-message').textContent = t.labelMessage;
+      el('contact-send').textContent = t.contactSend;
+
+      // navs & others
+      el('nav-home').textContent = t.navHome;
+      el('nav-about').textContent = t.navAbout;
+      el('nav-products').textContent = t.navProducts;
+      el('nav-gallery').textContent = t.navGallery;
+      el('nav-contact').textContent = t.navContact;
+      el('nav-signin').textContent = t.navSignin;
+      el('nav-signup').textContent = t.navSignup;
+      el('cta-shop').textContent = t.ctaShop;
+
+      el('aside-title').textContent = t.asideTitle;
+      el('aside-sub').textContent = t.asideSub;
+      el('aside-cta').textContent = t.asideCta;
+
+      el('foot-desc').textContent = t.footDesc;
+
+      // Buttons
+      // sign in/up titles
+      el('signin-title').textContent = t.signinTitle;
+      el('signup-title').textContent = t.signupTitle;
+
+      // product render refresh
+      renderProducts();
+      renderGallery();
+    }
+
+    // ---------- navigation ----------
+    function navigateTo(page){
+      document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+      el('page-'+page).classList.add('active');
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    // ---------- products rendering ----------
+    function renderProducts(filter=''){
+      const gridHome = el('product-grid');
+      const gridAll = el('products-list');
+      if(!gridHome || !gridAll) return;
+      gridHome.innerHTML = ''; gridAll.innerHTML = '';
+      for(const p of PRODUCTS){
+        const title = p.name[LANG] || p.name.en;
+        const prodCard = document.createElement('div');
+        prodCard.className = 'card';
+        prodCard.innerHTML = `
+          <img src="${p.img}" alt="${title}" onerror="this.style.opacity=0.6; this.nextElementSibling && (this.nextElementSibling.textContent='(Replace images/${p.img} with your own)')"/>
+          <h3>${title}</h3>
+          <p class="mini-muted">${p.desc[LANG] || p.desc.en}</p>
+          <div class="price">${p.price}</div>
+          <button class="buy" onclick="openModal(${p.id})">View</button>
+        `;
+        gridHome.appendChild(prodCard);
+
+        // full product list
+        const pcard = prodCard.cloneNode(true);
+        gridAll.appendChild(pcard);
+      }
+    }
+
+    // ---------- gallery ----------
+    function renderGallery(){
+      const g = el('gallery-grid');
+      if(!g) return;
+      g.innerHTML = '';
+      const images = GALLERY.length ? GALLERY : PRODUCTS.map(p=>p.img);
+      images.forEach(src=>{
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = "gallery";
+        img.onclick = ()=>openModalBySrc(src);
+        img.onerror = ()=>{ img.style.opacity=0.6; img.title="Replace image:"+src; }
+        g.appendChild(img);
+      });
+    }
+
+    // ---------- modal ----------
+    function openModal(id){
+      const p = PRODUCTS.find(x=>x.id===id); if(!p) return;
+      el('modal-img').src = p.img;
+      el('modal-title').textContent = p.name[LANG]||p.name.en;
+      el('modal-desc').textContent = p.desc[LANG]||p.desc.en;
+      el('modal-price').textContent = p.price;
+      el('modal').style.display = 'flex';
+    }
+    function openModalBySrc(src){
+      el('modal-img').src = src;
+      el('modal-title').textContent = '';
+      el('modal-desc').textContent = '';
+      el('modal-price').textContent = '';
+      el('modal').style.display = 'flex';
+    }
+    function closeModal(){ el('modal').style.display='none'; }
+
+    // ---------- search / filter ----------
+    function filterProducts(){
+      const q = el('search-input').value.trim().toLowerCase();
+      // naive filter: hide non-matches by regenerating list with only matches
+      const filtered = PRODUCTS.filter(p=>{
+        const n = (p.name[LANG]||p.name.en).toLowerCase();
+        const d = (p.desc[LANG]||p.desc.en).toLowerCase();
+        return n.includes(q) || d.includes(q) || p.price.includes(q);
+      });
+      const gridHome = el('product-grid'); gridHome.innerHTML='';
+      for(const p of filtered){
+        const title = p.name[LANG] || p.name.en;
+        const prodCard = document.createElement('div');
+        prodCard.className = 'card';
+        prodCard.innerHTML = `
+          <img src="${p.img}" alt="${title}" onerror="this.style.opacity=0.6"/>
+          <h3>${title}</h3>
+          <p class="mini-muted">${p.desc[LANG] || p.desc.en}</p>
+          <div class="price">${p.price}</div>
+          <button class="buy" onclick="openModal(${p.id})">View</button>
+        `;
+        gridHome.appendChild(prodCard);
+      }
+    }
+
+    // ---------- contact form (Formspree via fetch) ----------
+    el('contact-form').addEventListener('submit', async function(e){
+      e.preventDefault();
+      const name = el('contact-name').value.trim();
+      const email = el('contact-email').value.trim();
+      const phone = el('contact-phone').value.trim();
+      const message = el('contact-message').value.trim();
+
+      el('contact-send').disabled = true;
+      el('contact-status').textContent = "Sending...";
+
+      try{
+        const fd = new FormData();
+        fd.append('name', name);
+        fd.append('_replyto', email);
+        fd.append('phone', phone);
+        fd.append('message', message);
+        fd.append('_subject', 'New contact from Ethio Elect site');
+
+        const res = await fetch(FORMSPREE_ENDPOINT, {
+          method: 'POST',
+          body: fd,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+        if(res.ok){
+          el('contact-status').textContent = "";
+          el('contact-msg').innerHTML = '<div class="success">Thank you! Your message was sent.</div>';
+          el('contact-form').reset();
+        } else {
+          const data = await res.json();
+          console.error('Formspree error', data);
+          el('contact-msg').innerHTML = '<div class="error">Sorry, could not send (server). Try again later.</div>';
+        }
+      }catch(err){
+        console.error(err);
+        el('contact-msg').innerHTML = '<div class="error">Network error. Check internet connection.</div>';
+      } finally {
+        el('contact-send').disabled = false;
+        setTimeout(()=>el('contact-msg').innerHTML='',6000);
+      }
+    });
+
+    // ---------- sign up / sign in (localStorage demo) ----------
+    function getUsers(){ return JSON.parse(localStorage.getItem('ethio_users')||'[]'); }
+    function saveUsers(u){ localStorage.setItem('ethio_users', JSON.stringify(u)); }
+
+    el('signup-form').addEventListener('submit', function(e){
+      e.preventDefault();
+      const name = el('signup-name').value.trim();
+      const email = el('signup-email').value.trim();
+      const pass = el('signup-pass').value;
+      const users = getUsers();
+      if(users.find(x=>x.email===email)){
+        el('signup-msg').innerHTML = '<div class="error">Email already registered.</div>'; return;
+      }
+      users.push({name,email,pass});
+      saveUsers(users);
+      el('signup-msg').innerHTML = '<div class="success">Account created. You can now sign in.</div>';
+      el('signup-form').reset();
+      setTimeout(()=>el('signup-msg').innerHTML='',4000);
+      navigateTo('signin');
+    });
+
+    el('signin-form').addEventListener('submit', function(e){
+      e.preventDefault();
+      const email = el('signin-email').value.trim();
+      const pass = el('signin-pass').value;
+      const users = getUsers();
+      const u = users.find(x=>x.email===email && x.pass===pass);
+      if(u){
+        el('signin-msg').innerHTML = '<div class="success">Signed in. Welcome back!</div>';
+        el('signin-form').reset();
+        setTimeout(()=>el('signin-msg').innerHTML='',3000);
+        navigateTo('home');
+      } else {
+        el('signin-msg').innerHTML = '<div class="error">Invalid credentials.</div>';
+      }
+    });
+
+    // ---------- init ----------
+    (function init(){
+      applyLang();
+      renderProducts();
+      renderGallery();
+      // if user has no images, product images will 404; that's okay - replace images/ files with your images
+      // start on home
+      navigateTo('home');
+      // clickable logo
+      document.querySelector('.logo').style.cursor = 'pointer';
+    })();
+
+    // allow closing modal on backdrop click
+    document.getElementById('modal').addEventListener('click', function(e){
+      if(e.target===this) closeModal();
+    });
+  </script>
+</body>
+</html>
