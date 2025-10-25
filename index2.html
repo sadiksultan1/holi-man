@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ethio Elect</title>
+<style>
+/* ===== GENERAL STYLE ===== */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(120deg, #007BFF, #ff2d2d, #00cc44);
+  background-size: 400% 400%;
+  animation: gradientMove 10s ease infinite;
+  color: #fff;
+}
+@keyframes gradientMove {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background: rgba(0,0,0,0.5);
+  position: sticky; top: 0;
+}
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #fff;
+  text-shadow: 0 0 10px cyan, 0 0 20px lime;
+  animation: glow 2s infinite alternate;
+}
+@keyframes glow {
+  from { text-shadow: 0 0 10px cyan; }
+  to { text-shadow: 0 0 25px red; }
+}
+nav a {
+  text-decoration: none;
+  color: white;
+  margin: 0 10px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+nav a:hover {
+  color: yellow;
+  text-shadow: 0 0 8px #fff;
+  transform: scale(1.1);
+}
+section {
+  padding: 60px 20px;
+  text-align: center;
+}
+h1, h2 {
+  text-shadow: 0 0 10px black;
+}
+
+/* ===== PRODUCTS ===== */
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+.product {
+  background: rgba(255,255,255,0.1);
+  padding: 15px;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+.product:hover {
+  background: rgba(255,255,255,0.2);
+  transform: scale(1.05);
+}
+.product img {
+  width: 100%;
+  border-radius: 10px;
+}
+.product h3 {margin: 10px 0 5px;}
+.product p {margin: 0; font-weight: bold; color: yellow;}
+
+/* ===== FORMS ===== */
+form {
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+input, textarea, button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+}
+button {
+  background: #007BFF;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+button:hover {background: #00cc44;}
+
+/* ===== LANGUAGE BUTTON ===== */
+.lang-buttons {
+  margin-top: 15px;
+}
+.lang-buttons button {
+  background: rgba(255,255,255,0.2);
+  border: 1px solid #fff;
+  margin: 5px;
+  color: #fff;
+}
+.lang-buttons button:hover {
+  background: #fff;
+  color: #000;
+}
+footer {
+  background: rgba(0,0,0,0.6);
+  padding: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #ccc;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">⚡ Ethio Elect ⚡</div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#products">Products</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#contact">Contact</a>
+    <a href="#signin">Sign In</a>
+    <a href="#signup">Sign Up</a>
+  </nav>
+</header>
+
+<section id="home">
+  <h1 id="title-home">Welcome to Ethio Elect</h1>
+  <p id="desc-home">We provide the best electronics across Ethiopia!</p>
+  <div class="lang-buttons">
+    <button onclick="setLang('en')">English</button>
+    <button onclick="setLang('om')">Afaan Oromoo</button>
+    <button onclick="setLang('am')">አማርኛ</button>
+  </div>
+</section>
+
+<section id="about">
+  <h2 id="title-about">About Us</h2>
+  <p id="desc-about">
+    Ethio Elect is your trusted electronics shop offering quality and affordable devices.
+  </p>
+</section>
+
+<section id="products">
+  <h2 id="title-products">Our Products</h2>
+  <div class="products">
+    <div class="product"><img src="https://via.placeholder.com/200?text=TV"><h3>Smart TV</h3><p>$450</p></div>
+    <div class="product"><img src="https://via.placeholder.com/200?text=Laptop"><h3>Laptop</h3><p>$800</p></div>
+    <div class="product"><img src="https://via.placeholder.com/200?text=Phone"><h3>Phone</h3><p>$300</p></div>
+    <div class="product"><img src="https://via.placeholder.com/200?text=Camera"><h3>Camera</h3><p>$500</p></div>
+    <div class="product"><img src="https://via.placeholder.com/200?text=Speaker"><h3>Speaker</h3><p>$150</p></div>
+    <div class="product"><img src="https://via.placeholder.com/200?text=Headset"><h3>Headset</h3><p>$50</p></div>
+    <div class="product"><img src="https://via.placeholder.com/200?text=Printer"><h3>Printer</h3><p>$250</p></div>
+    <div class="product"><img src="https://via.placeholder.com/200?text=Fan"><h3>Fan</h3><p>$100</p></div>
+    <div class="product"><img src="https://via.placeholder.com/200?text=PowerBank"><h3>Power Bank</h3><p>$40</p></div>
+    <div class="product"><img src="https://via.placeholder.com/200?text=Projector"><h3>Projector</h3><p>$700</p></div>
+  </div>
+</section>
+
+<section id="gallery">
+  <h2 id="title-gallery">Gallery</h2>
+  <p id="desc-gallery">Some of our popular electronics in action.</p>
+  <img src="https://via.placeholder.com/600x300?text=Electronics+Showroom" style="width:90%;border-radius:10px;">
+</section>
+
+<section id="contact">
+  <h2 id="title-contact">Contact Us</h2>
+  <form action="https://formspree.io/f/mpwoajzn" method="POST">
+    <input type="text" name="name" placeholder="Full Name" required>
+    <input type="email" name="_replyto" placeholder="Email" required>
+    <input type="text" name="phone" placeholder="Phone Number">
+    <textarea name="message" placeholder="Your Message..." required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+</section>
+
+<section id="signin">
+  <h2>Sign In</h2>
+  <form>
+    <input type="email" placeholder="Email" required>
+    <input type="password" placeholder="Password" required>
+    <button type="submit">Sign In</button>
+  </form>
+</section>
+
+<section id="signup">
+  <h2>Sign Up</h2>
+  <form>
+    <input type="text" placeholder="Full Name" required>
+    <input type="email" placeholder="Email" required>
+    <input type="password" placeholder="Password" required>
+    <button type="submit">Create Account</button>
+  </form>
+</section>
+
+<footer>
+  © 2025 Ethio Elect | Designed by Sadik Sultan | All rights reserved.
+</footer>
+
+<script>
+// ====== LANGUAGE SWITCHER ======
+const translations = {
+  en: {
+    home: "Welcome to Ethio Elect",
+    homeDesc: "We provide the best electronics across Ethiopia!",
+    about: "About Us",
+    aboutDesc: "Ethio Elect is your trusted electronics shop offering quality and affordable devices.",
+    products: "Our Products",
+    gallery: "Gallery",
+    galleryDesc: "Some of our popular electronics in action.",
+    contact: "Contact Us"
+  },
+  om: {
+    home: "Baga gara Ethio Elect dhuftan",
+    homeDesc: "Meeshaalee elektirooniksii qulqulluu fi gatii xiqqaa dhiyeessina!",
+    about: "Waa'ee Keenya",
+    aboutDesc: "Ethio Elect bakka gurgurtaa elektirooniksii amanamaa fi gatii gaarii qabuudha.",
+    products: "Meeshaalee Keenya",
+    gallery: "Agarsiisa",
+    galleryDesc: "Meeshaalee keenya beekkaman muraasa ilaalaa.",
+    contact: "Nu qunnamaa"
+  },
+  am: {
+    home: "እንኳን ወደ ኢትዮ ኤሌክት መጡ",
+    homeDesc: "በኢትዮጵያ ውስጥ የተሻለ ኤሌክትሮኒክስ እናቀርባለን!",
+    about: "ስለ እኛ",
+    aboutDesc: "ኢትዮ ኤሌክት የታመነ እና ተመጣጣኝ ዋጋ ያለው የኤሌክትሮኒክስ መደብር ነው።",
+    products: "ምርቶቻችን",
+    gallery: "ጋለሪ",
+    galleryDesc: "የተወዳጁ ኤሌክትሮኒክሶቻችን አንዳንዶቹ።",
+    contact: "ያግኙን"
+  }
+};
+function setLang(lang) {
+  document.getElementById('title-home').innerText = translations[lang].home;
+  document.getElementById('desc-home').innerText = translations[lang].homeDesc;
+  document.getElementById('title-about').innerText = translations[lang].about;
+  document.getElementById('desc-about').innerText = translations[lang].aboutDesc;
+  document.getElementById('title-products').innerText = translations[lang].products;
+  document.getElementById('title-gallery').innerText = translations[lang].gallery;
+  document.getElementById('desc-gallery').innerText = translations[lang].galleryDesc;
+  document.getElementById('title-contact').innerText = translations[lang].contact;
+}
+</script>
+
+</body>
+</html>
